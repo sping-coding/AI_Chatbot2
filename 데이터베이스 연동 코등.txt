@@ -1,0 +1,7 @@
+
+python manage.py makemigrations chatbot_app
+python manage.py migrate
+
+
+관리자 만들기
+python manage.py createsuperuser

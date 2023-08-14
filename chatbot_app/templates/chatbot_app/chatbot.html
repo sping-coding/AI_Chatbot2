@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>마음이 상담소</title>
+    <style>
+        /* 기본 스타일 */
+        body {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        }
+        .chat-container {
+            max-width: 500px;
+            max-height: 90vh;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
+        }
+        .chat-history {
+            margin-top: 10px;
+            padding: 10px;
+            border: 1px solid #eee;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+            max-height: 900px;
+            overflow-y: scroll;
+        }
+        .chat-message {
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 10px;
+        }
+        .user-message {
+            text-align: right;
+            background-color: #f0f0f0;
+        }
+        .bot-message {
+            display: flex;
+            align-items: center;
+            background-color: #f9f9f9;
+        }
+        .bot-avatar {
+            width: 30px;
+            height: 30px;
+            margin-right: 10px;
+            background-image: url('./bot_avatar.jpg');  /* 이미지 경로 */
+            background-size: cover;
+            border-radius: 50%;
+        }
+        .bot-message-content {
+            padding: 10px;
+            flex: 1;
+        }
+        .user-input {
+            margin-top: 10px;
+            width: 100%;
+            padding: 5px;
+            border: 1px solid #ddd;
+            border-radius: 3px;
+        }
+        .send-button {
+            margin-top: 10px;
+            padding: 5px 10px;
+            background-color: #1abf5a; 
+            color: white;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+        .user-input-a {
+            display: flex;
+            align-items: center;
+        }
+        .analyis-button {
+            margin-top: 10px;
+            padding: 5px 10px;
+            background-color: black; 
+            color: white;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+        .main_title {
+            text-align: center;
+            color: #1abf5a;
+            text-decoration: underline;
+        }
+
+        /* 화면 크기에 따른 스타일 조정 */
+        @media (min-width: 768px) {
+            .chat-container {
+                max-width: 800px;
+            }
+        }
+        @media (max-width: 767px) {
+            .chat-container {
+                max-width: 600px;
+            }
+        }
+        @media (max-width: 480px) {
+            .chat-container {
+                max-width: 350px;
+            }
+        }
+    </style>
+    <!-- 기타 헤더 정보 -->
+</head>
+<body>
+    <div class="chat-container">
+        <h1 class="main_title">마음이 상담소</h1>
+        <div>
+            <div class="chat-history" id="chat_history">
+                <div class='chat-message bot-message'><span class='message-label'>마음이 :</span>  안녕 나는 마음이야!</div>
+                <div class='chat-message bot-message'><span class='message-label'>마음이 :</span>  당신의 마음을 들어드릴게요 </div>
+            </div>
+            <div class="user-input-a">
+                <button class="analyis-button">분석</button>
+                <input type="text" class="user-input" id="user_input" placeholder="User :"/>
+                <button class="send-button" id="send_button">Send</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        // 스크롤 함수 등의 스크립트 부분
+        function scrollToBottom() {
+            var chatHistory = document.getElementById("chat_history");
+            chatHistory.scrollTop = chatHistory.scrollHeight;
+        }
+
+        $(document).ready(function () {
+            function sendMessage() {
+                var user_input = $("#user_input").val();
+                if (user_input.trim() !== "") {
+                    $("#chat_history").append("<div class='chat-message user-message'><span class='message-label'></span> " + user_input + "</div>");
+                    var csrftoken = $('[name=csrfmiddlewaretoken]').val();
+                    $.ajax({
+                        type: "POST",
+                        url: "",
+                        data: {
+                            user_input: user_input,
+                            csrfmiddlewaretoken: csrftoken
+                        },
+                        success: function (data) {
+                            var bot_response = data.bot_response;
+                            $("#chat_history").append("<div class='chat-message bot-message'><span class='message-label'>마음이 :</span> " + bot_response + "</div>");
+                            $("#user_input").val("");
+                            scrollToBottom();
+                        }
+                    });
+                }
+            }
+
+            $("#send_button").click(function () {
+                sendMessage();
+            });
+
+            $("#user_input").keypress(function (event) {
+                if (event.which === 13) {
+                    sendMessage();
+                    return false;
+                }
+            });
+        });
+    </script>
+</body>
+</html>
