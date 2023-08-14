@@ -32,7 +32,7 @@
         }
         .user-message {
             text-align: right;
-            background-color: #f0f0f0;
+            background-color: #ccffcc;
         }
         .bot-message {
             display: flex;
@@ -83,7 +83,10 @@
         .main_title {
             text-align: center;
             color: #1abf5a;
-            text-decoration: underline;
+            text-decoration:wavy;
+        }
+        .message-label{
+            color: green;
         }
 
         /* 화면 크기에 따른 스타일 조정 */
@@ -112,10 +115,11 @@
             <div class="chat-history" id="chat_history">
                 <div class='chat-message bot-message'><span class='message-label'>마음이 :</span>  안녕 나는 마음이야!</div>
                 <div class='chat-message bot-message'><span class='message-label'>마음이 :</span>  당신의 마음을 들어드릴게요 </div>
+                <div class='chat-message bot-message'><span class='message-label'>마음이 :</span>  걱정마세요 당신의 마음은 저만 알고 있을게요 </div>
             </div>
             <div class="user-input-a">
                 <button class="analyis-button">분석</button>
-                <input type="text" class="user-input" id="user_input" placeholder="User :"/>
+                <input type="text" class="user-input" id="user_input" placeholder="고민을 적어주세요"/>
                 <button class="send-button" id="send_button">Send</button>
             </div>
         </div>
